@@ -1,0 +1,468 @@
+
+<div class="story-viewer" id="storyViewer">
+  <div class="story-viewer-image" id="storyViewerImage"></div>
+  <div class="story-viewer-overlay"></div>
+  <div class="story-progress-bar" id="storyProgressBar"></div>
+  <div class="story-header">
+    <div class="story-header-avatar" id="storyViewerAvatar">A</div>
+    <div class="story-header-info">
+      <div class="story-header-name" id="storyViewerName">Имя</div>
+      <div class="story-header-time" id="storyViewerTime">сейчас</div>
+    </div>
+    <div class="story-header-actions">
+      <button class="story-delete-btn" id="storyDeleteBtn" style="display:none"><i class="fas fa-trash"></i></button>
+      <button class="story-close" id="storyCloseBtn"><i class="fas fa-times"></i></button>
+    </div>
+  </div>
+  <div class="story-tap-zones">
+    <div class="story-tap-left" id="storyTapLeft"></div>
+    <div class="story-tap-right" id="storyTapRight"></div>
+  </div>
+  <div class="story-caption" id="storyCaption" style="display:none"></div>
+
+  <div class="story-reactions-row" id="storyReactionsRow">
+    <button class="story-reaction-btn" data-emoji="❤️">❤️</button>
+    <button class="story-reaction-btn" data-emoji="🔥">🔥</button>
+    <button class="story-reaction-btn" data-emoji="😂">😂</button>
+    <button class="story-reaction-btn" data-emoji="👍">👍</button>
+    <button class="story-reaction-btn" data-emoji="😮">😮</button>
+    <button class="story-reaction-btn" data-emoji="😢">😢</button>
+    <button class="story-reaction-btn" data-emoji="🎉">🎉</button>
+  </div>
+
+  <div class="story-actions">
+    <input type="text" class="story-reply-input" id="storyReplyInput" placeholder="Ответить..." autocomplete="off">
+    <button class="story-send-btn" id="storySendBtn"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<div class="message-menu" id="storyContextMenu">
+  <div class="message-menu-item" id="ctxReply"><i class="fas fa-reply"></i> Ответить</div>
+  <div class="message-menu-item" id="ctxReact"><i class="fas fa-heart"></i> Реакция</div>
+  <div class="message-menu-item danger" id="ctxDelete"><i class="fas fa-trash"></i> Удалить</div>
+</div>
+
+<div class="message-menu" id="messageMenu">
+  <div class="message-menu-item" id="mmReply"><i class="fas fa-reply"></i> Ответить</div>
+  <div class="message-menu-item" id="mmCopy"><i class="fas fa-copy"></i> Копировать</div>
+  <div class="message-menu-item" id="mmEdit" style="display:none"><i class="fas fa-edit"></i> Редактировать</div>
+  <div class="message-menu-item danger" id="mmDelete"><i class="fas fa-trash"></i> Удалить</div>
+</div>
+
+<div class="search-screen" id="searchScreen">
+  <div class="search-header">
+    <div class="search-input-wrap">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Поиск" autocomplete="off">
+    </div>
+    <button class="search-cancel" id="searchCancel">Отмена</button>
+  </div>
+  <div class="search-results" id="searchResults"></div>
+</div>
+
+<div class="settings-screen" id="settingsScreen">
+  <div class="settings-header">
+    <button class="header-btn" id="settingsBack" type="button"><i class="fas fa-arrow-left"></i></button>
+    <h2>Настройки</h2>
+  </div>
+  <div class="settings-body">
+    <div class="profile-banner" id="profileBanner">
+      <div class="banner-hint">Нажмите, чтобы изменить баннер</div>
+    </div>
+    <div class="profile-info-block">
+      <div class="profile-avatar-large" id="profileAvatar"><i class="fas fa-user" id="profileAvatarIcon"></i></div>
+      <div class="profile-text-info">
+        <div class="profile-text-name" id="settingsProfileName">—</div>
+        <div class="profile-text-username" id="settingsProfileUsername">—</div>
+      </div>
+    </div>
+    <div class="profile-bio-block">
+      <div class="profile-bio empty" id="profileBio">Нажмите, чтобы добавить описание</div>
+    </div>
+    <div class="profile-meta" id="profileMeta">
+      <div class="profile-meta-item birthday" id="birthdayItem" style="display:none">
+        <i class="fas fa-birthday-cake"></i><span id="birthdayValue">—</span>
+      </div>
+      <a class="profile-meta-item channel-link" id="channelItem" style="display:none" target="_blank">
+        <i class="fas fa-bullhorn"></i><span id="channelValue">—</span>
+      </a>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Аккаунт</div>
+      <div class="settings-item" id="editNameBtn">
+        <div class="settings-item-icon"><i class="fas fa-user-edit"></i></div>
+        <div class="settings-item-text"><div class="settings-item-title">Изменить имя</div></div>
+        <i class="fas fa-chevron-right settings-item-chevron"></i>
+      </div>
+      <div class="settings-item" id="editUsernameBtn">
+        <div class="settings-item-icon"><i class="fas fa-at"></i></div>
+        <div class="settings-item-text"><div class="settings-item-title">Изменить username</div></div>
+        <i class="fas fa-chevron-right settings-item-chevron"></i>
+      </div>
+      <div class="settings-item" id="editBioBtn">
+        <div class="settings-item-icon"><i class="fas fa-align-left"></i></div>
+        <div class="settings-item-text"><div class="settings-item-title">Описание</div></div>
+        <div class="settings-item-value" id="bioValue">—</div>
+        <i class="fas fa-chevron-right settings-item-chevron"></i>
+      </div>
+      <div class="settings-item" id="editBirthdayBtn">
+        <div class="settings-item-icon"><i class="fas fa-birthday-cake"></i></div>
+        <div class="settings-item-text"><div class="settings-item-title">Дата рождения</div></div>
+        <div class="settings-item-value" id="birthdayItemValue">—</div>
+        <i class="fas fa-chevron-right settings-item-chevron"></i>
+      </div>
+      <div class="settings-item" id="editChannelBtn">
+        <div class="settings-item-icon"><i class="fas fa-bullhorn"></i></div>
+        <div class="settings-item-text"><div class="settings-item-title">Свой канал</div></div>
+        <div class="settings-item-value" id="channelItemValue">—</div>
+        <i class="fas fa-chevron-right settings-item-chevron"></i>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Приложение</div>
+      <div class="settings-item" id="changeThemeBtn">
+        <div class="settings-item-icon"><i class="fas fa-palette"></i></div>
+        <div class="settings-item-text"><div class="settings-item-title">Тема</div></div>
+        <div class="settings-item-value" id="settingsThemeValue">Тёмная</div>
+        <i class="fas fa-chevron-right settings-item-chevron"></i>
+      </div>
+      <div class="settings-item" id="changeAccentBtn">
+        <div class="settings-item-icon"><i class="fas fa-tint"></i></div>
+        <div class="settings-item-text"><div class="settings-item-title">Акцентный цвет</div></div>
+        <div class="settings-item-value" id="settingsAccentValue">Голубой</div>
+        <i class="fas fa-chevron-right settings-item-chevron"></i>
+      </div>
+      <div class="settings-item" id="changeWallpaperBtn">
+        <div class="settings-item-icon"><i class="fas fa-image"></i></div>
+        <div class="settings-item-text"><div class="settings-item-title">Обои чата</div></div>
+        <div class="settings-item-value" id="settingsWallpaperValue">По умолчанию</div>
+        <i class="fas fa-chevron-right settings-item-chevron"></i>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Баланс</div>
+      <div class="settings-item" id="openStarsBtn">
+        <div class="settings-item-icon" style="color:var(--star);background:rgba(249,202,36,.15)"><i class="fas fa-star"></i></div>
+        <div class="settings-item-text">
+          <div class="settings-item-title">Мои звёзды</div>
+          <div class="settings-item-desc">Покупайте и дарите</div>
+        </div>
+        <div class="settings-item-value" id="settingsStarsValue">0 ⭐</div>
+        <i class="fas fa-chevron-right settings-item-chevron"></i>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-item danger" id="logoutBtn">
+        <div class="settings-item-icon"><i class="fas fa-sign-out-alt"></i></div>
+        <div class="settings-item-text"><div class="settings-item-title">Выйти из аккаунта</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="settings-screen" id="chatSettingsScreen">
+  <div class="settings-header">
+    <button class="header-btn" id="chatSettingsBack" type="button"><i class="fas fa-arrow-left"></i></button>
+    <h2 id="chatSettingsTitle">Настройки канала</h2>
+  </div>
+  <div class="settings-body">
+    <div class="profile-banner" id="chatBanner">
+      <div class="banner-hint">Нажмите, чтобы изменить шапку</div>
+    </div>
+    <div class="profile-info-block">
+      <div class="profile-avatar-large" id="chatAvatar"><i class="fas fa-bullhorn" id="chatAvatarIcon"></i></div>
+      <div class="profile-text-info">
+        <div class="profile-text-name" id="chatSettingsName">—</div>
+        <div class="profile-text-username" id="chatSettingsType">Канал</div>
+      </div>
+    </div>
+    <div class="profile-bio-block">
+      <div class="profile-bio" id="chatSettingsDesc">Нажмите, чтобы добавить описание</div>
+    </div>
+    <div class="profile-meta">
+      <a class="profile-meta-item channel-link" id="chatLinkItem" style="display:none" target="_blank">
+        <i class="fas fa-link"></i><span id="chatLinkValue">—</span>
+      </a>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-title">Информация</div>
+      <div class="settings-item" id="chatEditNameBtn">
+        <div class="settings-item-icon"><i class="fas fa-edit"></i></div>
+        <div class="settings-item-text"><div class="settings-item-title">Изменить название</div></div>
+        <div class="settings-item-value" id="chatNameValue">—</div>
+        <i class="fas fa-chevron-right settings-item-chevron"></i>
+      </div>
+      <div class="settings-item" id="chatEditDescBtn">
+        <div class="settings-item-icon"><i class="fas fa-align-left"></i></div>
+        <div class="settings-item-text"><div class="settings-item-title">Изменить описание</div></div>
+        <div class="settings-item-value" id="chatDescValue">—</div>
+        <i class="fas fa-chevron-right settings-item-chevron"></i>
+      </div>
+      <div class="settings-item" id="chatEditLinkBtn">
+        <div class="settings-item-icon"><i class="fas fa-link"></i></div>
+        <div class="settings-item-text"><div class="settings-item-title">Ссылка канала</div></div>
+        <div class="settings-item-value" id="chatLinkValue2">—</div>
+        <i class="fas fa-chevron-right settings-item-chevron"></i>
+      </div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-item danger" id="chatDeleteBtn">
+        <div class="settings-item-icon"><i class="fas fa-trash"></i></div>
+        <div class="settings-item-text"><div class="settings-item-title">Удалить канал</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="stars-screen" id="starsScreen">
+  <div class="stars-hero">
+    <button class="stars-hero-close" id="starsClose" type="button"><i class="fas fa-times"></i></button>
+    <div class="stars-hero-icon">⭐</div>
+    <div class="stars-hero-title">Звёзды S!GRAM</div>
+    <div class="stars-hero-balance"><i class="fas fa-star"></i><span id="starsBalanceEl">1000</span></div>
+    <div class="stars-hero-desc">Звёзды — внутренняя валюта S!GRAM.</div>
+  </div>
+  <div class="stars-packs">
+    <div class="stars-pack"><div class="stars-pack-icon">⭐</div><div class="stars-pack-info"><div class="stars-pack-count"><i class="fas fa-star"></i>100</div></div><div class="stars-pack-price">99 ₽</div></div>
+    <div class="stars-pack"><div class="stars-pack-icon">⭐</div><div class="stars-pack-info"><div class="stars-pack-count"><i class="fas fa-star"></i>500</div><div class="stars-pack-bonus">+50 бонусных ⭐</div></div><div class="stars-pack-price">449 ₽</div></div>
+    <div class="stars-pack"><div class="stars-pack-icon">⭐</div><div class="stars-pack-info"><div class="stars-pack-count"><i class="fas fa-star"></i>1000</div><div class="stars-pack-bonus">+150 бонусных ⭐</div></div><div class="stars-pack-price">849 ₽</div></div>
+    <div class="stars-pack"><div class="stars-pack-icon">⭐</div><div class="stars-pack-info"><div class="stars-pack-count"><i class="fas fa-star"></i>5000</div><div class="stars-pack-bonus">+1000 бонусных ⭐</div></div><div class="stars-pack-price">3999 ₽</div></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="createTypeModal">
+  <div class="modal-content">
+    <div class="modal-title">Что создать?</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div class="create-type-item" data-type="channel" style="display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;background:var(--bg-input);cursor:pointer">
+        <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#8ab4d8,#a898d8);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px"><i class="fas fa-bullhorn"></i></div>
+        <div style="flex:1">
+          <div style="color:var(--text-primary);font-size:15px;font-weight:600">Канал</div>
+          <div style="color:var(--text-secondary);font-size:12px;margin-top:2px">Публикации для подписчиков</div>
+        </div>
+      </div>
+      <div class="create-type-item" data-type="group" style="display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;background:var(--bg-input);cursor:pointer">
+        <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#88c8a8,#70b090);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px"><i class="fas fa-users"></i></div>
+        <div style="flex:1">
+          <div style="color:var(--text-primary);font-size:15px;font-weight:600">Группа</div>
+          <div style="color:var(--text-secondary);font-size:12px;margin-top:2px">Общение участников</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="createNameModal">
+  <div class="modal-content">
+    <div class="modal-title" id="createNameTitle">Создать канал</div>
+    <div class="modal-field">
+      <label>Название</label>
+      <input type="text" id="createNameInput" maxlength="40" autocomplete="off">
+    </div>
+    <div class="modal-field">
+      <label>Описание (необязательно)</label>
+      <textarea id="createDescInput" maxlength="200" rows="3"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" id="createNameCancel">Отмена</button>
+      <button class="modal-btn save" id="createNameSave">Создать</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="giftModal">
+  <div class="modal-content">
+    <div class="modal-title">Отправить подарок</div>
+    <div class="modal-subtitle">Выберите подарок — звёзды спишутся с баланса</div>
+    <div class="gifts-grid" id="giftsGrid"></div>
+    <div class="modal-field" style="margin-top:12px">
+      <label>Сообщение к подарку (необязательно)</label>
+      <input type="text" id="giftTextInput" maxlength="100" autocomplete="off" placeholder="С любовью...">
+    </div>
+    <div class="gift-balance-info">
+      Ваш баланс: <strong><i class="fas fa-star"></i> <span id="giftBalanceEl">1000</span></strong>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" id="giftCancel">Отмена</button>
+      <button class="modal-btn save" id="giftSendBtn">Отправить</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="pollModal">
+  <div class="modal-content">
+    <div class="modal-title">Создать опрос</div>
+    <div class="modal-field">
+      <label>Вопрос</label>
+      <input type="text" id="pollQuestionInput" maxlength="100" autocomplete="off" placeholder="Что вы думаете?">
+    </div>
+    <div class="modal-field">
+      <label>Вариант 1</label>
+      <input type="text" id="pollOpt1" maxlength="40" autocomplete="off">
+    </div>
+    <div class="modal-field">
+      <label>Вариант 2</label>
+      <input type="text" id="pollOpt2" maxlength="40" autocomplete="off">
+    </div>
+    <div class="modal-field">
+      <label>Вариант 3</label>
+      <input type="text" id="pollOpt3" maxlength="40" autocomplete="off">
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" id="pollCancel">Отмена</button>
+      <button class="modal-btn save" id="pollCreateBtn">Создать</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="accentModal">
+  <div class="modal-content">
+    <div class="modal-title">Акцентный цвет</div>
+    <div class="accent-grid" id="accentGrid"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="wallpaperModal">
+  <div class="modal-content">
+    <div class="modal-title">Обои чата</div>
+    <div class="wallpaper-grid" id="wallpaperGrid"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="editModal">
+  <div class="modal-content">
+    <div class="modal-title" id="editModalTitle">Изменить</div>
+    <div class="modal-field">
+      <label id="editModalLabel">Значение</label>
+      <input type="text" id="editModalInput" autocomplete="off">
+      <div class="modal-hint" id="editModalHint"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" id="editModalCancel">Отмена</button>
+      <button class="modal-btn save" id="editModalSave">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="bioModal">
+  <div class="modal-content">
+    <div class="modal-title" id="bioModalTitle">Описание</div>
+    <div class="modal-field">
+      <label>О себе</label>
+      <textarea id="bioInput" maxlength="300" rows="4"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" id="bioCancel">Отмена</button>
+      <button class="modal-btn save" id="bioSave">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="birthdayModal">
+  <div class="modal-content">
+    <div class="modal-title">Дата рождения</div>
+    <div class="modal-field">
+      <label>Дата</label>
+      <input type="date" id="birthdayInput">
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" id="birthdayCancel">Отмена</button>
+      <button class="modal-btn save" id="birthdaySave">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="channelModal">
+  <div class="modal-content">
+    <div class="modal-title">Свой канал</div>
+    <div class="modal-field">
+      <label>Ссылка на канал</label>
+      <input type="text" id="channelInput" placeholder="https://t.me/mychannel" autocomplete="off">
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" id="channelCancel">Отмена</button>
+      <button class="modal-btn save" id="channelSave">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="createStoryModal">
+  <div class="modal-content">
+    <div class="modal-title">Создать историю</div>
+    <div class="modal-field">
+      <label>Подпись (необязательно)</label>
+      <input type="text" id="storyCaptionInput" maxlength="80" autocomplete="off" placeholder="Что нового?">
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn cancel" id="createStoryCancel">Отмена</button>
+      <button class="modal-btn save" id="createStorySelectPhoto">Выбрать фото</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="avatarPicker">
+  <div class="modal-content">
+    <div class="modal-title">Выберите аватар</div>
+    <div class="picker-grid" id="avatarGrid"></div>
+    <div class="picker-upload" id="avatarUpload">
+      <i class="fas fa-upload" style="color:var(--accent)"></i>
+      <span>Загрузить из галереи</span>
+    </div>
+    <input type="file" id="avatarFileInput" accept="image/*" hidden>
+  </div>
+</div>
+
+<div class="modal-overlay" id="bannerPicker">
+  <div class="modal-content">
+    <div class="modal-title">Выберите баннер</div>
+    <div class="picker-grid" id="bannerGrid"></div>
+    <div class="picker-upload" id="bannerUpload">
+      <i class="fas fa-upload" style="color:var(--accent)"></i>
+      <span>Загрузить из галереи</span>
+    </div>
+    <input type="file" id="bannerFileInput" accept="image/*" hidden>
+  </div>
+</div>
+
+<div class="gift-tg-anim" id="giftTgAnim">
+  <div class="gift-tg-backdrop" id="giftTgBackdrop"></div>
+  <div class="gift-tg-glow" id="giftTgGlow"></div>
+  <div class="gift-tg-gift" id="giftTgGift">🎁</div>
+  <div class="gift-tg-caption" id="giftTgCaption">
+    <div class="gift-tg-caption-emoji" id="giftTgCapEmoji">🎁</div>
+    <div class="gift-tg-caption-name" id="giftTgCapName">Подарок</div>
+    <div class="gift-tg-caption-price"><i class="fas fa-star"></i><span id="giftTgCapPrice">10</span></div>
+    <div class="gift-tg-caption-text" id="giftTgCapText" style="display:none"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<div class="reaction-picker" id="reactionPicker">
+  <span data-emoji="❤️">❤️</span>
+  <span data-emoji="👍">👍</span>
+  <span data-emoji="🔥">🔥</span>
+  <span data-emoji="😂">😂</span>
+  <span data-emoji="😮">😮</span>
+  <span data-emoji="😢">😢</span>
+  <span data-emoji="🎉">🎉</span>
+</div>
+
+<script type="module" src="app.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('sw.js').catch(function(){});
+    });
+  }
+</script>
+
+</body>
+</html>
